@@ -5,6 +5,8 @@
  */
 package mileysnake;
 
+import environment.ApplicationStarter;
+
 /**
  *
  * @author Lauchlan
@@ -15,7 +17,7 @@ public class MileySnake {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        ApplicationStarter.run("Miley Run", new TrapHouse());
     }
     
 }

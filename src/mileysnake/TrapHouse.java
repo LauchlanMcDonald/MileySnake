@@ -6,7 +6,10 @@
 package mileysnake;
 
 import environment.Environment;
+import grid.Grid;
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
@@ -16,7 +19,12 @@ import java.awt.event.MouseEvent;
  */
 class TrapHouse extends Environment {
 
+    Grid grid;
+    
+    
     public TrapHouse() {
+        grid = new Grid(30, 25, 20, 20, new Point(10, 50), Color.BLACK);
+        
     }
 
     @Override
@@ -37,10 +45,16 @@ class TrapHouse extends Environment {
 
     @Override
     public void environmentMouseClicked(MouseEvent e) {
+        System.out.println("Mouse clicked at " + e.getPoint());
+        System.out.println("Mouse clicked at " + grid.getCellLocationFromSystemCoordinate(e.getPoint()));
+        
+
     }
 
     @Override
     public void paintEnvironment(Graphics graphics) {
-
+        if(grid != null) {
+            grid.paintComponent(graphics);
+        }
     }
 }

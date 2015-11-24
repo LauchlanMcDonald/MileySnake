@@ -19,5 +19,5 @@ public class MileySnake {
     public static void main(String[] args) {
         ApplicationStarter.run("Miley Run", new TrapHouse());
     }
-    
+
 }

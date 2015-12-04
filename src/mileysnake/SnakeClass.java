@@ -31,9 +31,10 @@ public class SnakeClass {
         HEAD_POSITION = aHEAD_POSITION;
     }
 
-    public SnakeClass(Direction direction, Grid grid) {
+    public SnakeClass(Direction direction, Grid grid, MoveValidatorIntf validator) {
         this.direction = direction;
         this.grid = grid;
+        this.validator = validator;
 
         //create the snake body
         body = new ArrayList<>();
@@ -49,7 +50,12 @@ public class SnakeClass {
     private Direction direction = Direction.LEFT;
     private ArrayList<Point> body;
     private Grid grid;
-    private Color bodyColor = Color.RED;
+    private Color bodyColor = new Color(128,128,128);
+    private final MoveValidatorIntf validator;
+
+//    SnakeClass(Direction direction, Grid grid) {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
 
     public void draw(Graphics graphics) {
         graphics.setColor(getBodyColor());
@@ -78,7 +84,7 @@ public class SnakeClass {
         }
 
         //add new head
-        getBody().add(0, newHead);
+        getBody().add(HEAD_POSITION, validator.validateMove(newHead));
 
         //delete tail
         getBody().remove(getBody().size() - 1);
@@ -86,7 +92,7 @@ public class SnakeClass {
     }
 
     public Point getHead() {
-        return getBody().get(0);
+        return getBody().get(HEAD_POSITION);
     }
 
     /**

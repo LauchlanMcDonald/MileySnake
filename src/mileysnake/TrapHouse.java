@@ -5,6 +5,7 @@
  */
 package mileysnake;
 
+import audio.AudioPlayer;
 import environment.Environment;
 import grid.Grid;
 import images.ResourceTools;
@@ -24,15 +25,14 @@ class TrapHouse extends Environment implements CellDataProviderIntf, MoveValidat
 
     private Grid grid;
     private SnakeClass miley;
-    private Barrier barrier;
+//    private Barrier barrier;
     private ArrayList<Barrier> barriers;
 
     public TrapHouse() {
 
-        grid = new Grid(30, 25, 20, 20, new Point(0, 0), new Color(220,220,220));
-        miley = new SnakeClass(Direction.LEFT, grid, this);
-        barrier = new Barrier(0, 0, Color.BLACK, this);
- background = ResourceTools.loadImageFromResource("MileySnake/Miley Cyrus.png");
+        grid = new Grid(30, 25, 20, 20, new Point(0, 0), new Color(220, 220, 220));
+//        barrier = new Barrier(0, 0, Color.BLACK, this);
+        background = ResourceTools.loadImageFromResource("MileySnake/Miley Cyrus.png");
         this.setBackground(background);
 //<editor-fold defaultstate="collapsed" desc="Barriers">
         barriers = new ArrayList<>();
@@ -145,14 +145,15 @@ class TrapHouse extends Environment implements CellDataProviderIntf, MoveValidat
         barriers.add(new Barrier(29, 24, Color.GREEN, this));
 //</editor-fold>
 
+        miley = new SnakeClass(Direction.LEFT, grid, this);
     }
 
     @Override
     public void initializeEnvironment() {
 //        background = ResourceTools.loadImageFromResource("MileySnake/Miley Cyrus.png");
 //        this.setBackground(background);
-
     }
+    
     Image background;
     int moveDelay = 0;
     int moveDelayLimit = 4;
@@ -163,13 +164,12 @@ class TrapHouse extends Environment implements CellDataProviderIntf, MoveValidat
 
         if (miley != null) {
             if (moveDelay >= moveDelayLimit) {
-                miley.move();
                 moveDelay = 0;
+                miley.move();
             } else {
                 moveDelay++;
             }
         }
-
     }
 
     @Override
@@ -185,10 +185,17 @@ class TrapHouse extends Environment implements CellDataProviderIntf, MoveValidat
             miley.setDirection(Direction.UP);
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
             miley.setDirection(Direction.DOWN);
+        } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+            AudioPlayer.play("/mileysnake/bomb_1.wav");
         }
 
     }
 
+//    else if (e.getKeyCode () 
+//        == KeyEvent.VK_SPACE) {
+//            AudioPlayer.play("/mileysnake/Laser_1.wav");
+//    }
+//}
     @Override
     public void keyReleasedHandler(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
@@ -214,7 +221,7 @@ class TrapHouse extends Environment implements CellDataProviderIntf, MoveValidat
     @Override
     public void paintEnvironment(Graphics graphics) {
         if (grid != null) {
-            
+
             grid.paintComponent(graphics);
         }
         if (miley != null) {
@@ -226,9 +233,9 @@ class TrapHouse extends Environment implements CellDataProviderIntf, MoveValidat
                 barriers.get(i).draw(graphics);
             }
 
-            barrier.draw(graphics);
+//            barrier.draw(graphics);
         }
-        
+
     }
 
 //<editor-fold defaultstate="collapsed" desc="CellDataProviderIntf">
@@ -256,6 +263,54 @@ class TrapHouse extends Environment implements CellDataProviderIntf, MoveValidat
 
     @Override
     public Point validateMove(Point proposedLocation) {
+//        if the snakes head hits a outside barrier then
+        // if LEFT BARRIER (x = 0) then 
+        //     if BOTTOM HALF of grid, then up
+        //     else then down
+        for (Barrier barrier : barriers) {
+            if (barrier.getLocation().equals(proposedLocation)) {//we have a HIT!
+                //now, dammit, what side is this barrier on?
+                if (barrier.getX() == 0) { // this MUST be a barrier on LEFT side of the grid
+                    //if in bottom half, go up
+                    if (barrier.getY() >= (grid.getRows() / 2)) { 
+                        //then we are in teh bottom half
+                       //  move the x value to the RIGHT one space
+                        proposedLocation.x++;
+                        proposedLocation.y--;
+                        miley.setDirection(Direction.UP);
+                    } else {
+                        proposedLocation.x++;
+                        proposedLocation.y++;
+                        miley.setDirection(Direction.DOWN);
+                        
+                    }
+                    
+                    
+                } else if (barrier.getX() == grid.getColumns()-1) { // this MUST be a barrier on LEFT side of the grid
+                    //if in bottom half, go up
+                    if (barrier.getY() >= (grid.getRows() / 2)) { 
+                        //then we are in teh bottom half
+                       //  move the x value to the RIGHT one space
+                        proposedLocation.x--;
+                        proposedLocation.y--;
+                        miley.setDirection(Direction.UP);
+                    } else {
+                        proposedLocation.x++;
+                        proposedLocation.y++;
+                        miley.setDirection(Direction.DOWN);
+                        
+                    }
+                }
+                
+            }
+        }
+
+
+
+
+
+
+
         //if the x value of the head location is less than 0
         if (proposedLocation.x < 0) {
             //if above the middl of the grid, go down, else go up

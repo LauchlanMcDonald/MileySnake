@@ -6,10 +6,12 @@
 package mileysnake;
 
 import grid.Grid;
+import images.ResourceTools;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.awt.Color;
+import java.awt.Image;
 
 /**
  *
@@ -30,6 +32,7 @@ public class SnakeClass {
     public static void setHEAD_POSITION(int aHEAD_POSITION) {
         HEAD_POSITION = aHEAD_POSITION;
     }
+//    private Object cellData;
 
     public SnakeClass(Direction direction, Grid grid, MoveValidatorIntf validator) {
         this.direction = direction;
@@ -38,34 +41,55 @@ public class SnakeClass {
 
         //create the snake body
         body = new ArrayList<>();
-        body.add(new Point(5, 5));
-        body.add(new Point(5, 4));
-        body.add(new Point(5, 3));
-        body.add(new Point(4, 3));
-        body.add(new Point(3, 3));
+        body.add(new Point(5, 15));
+        body.add(new Point(5, 14));
+        body.add(new Point(5, 13));
+        body.add(new Point(4, 13));
+        body.add(new Point(3, 13));
+
+        head_1 = ResourceTools.loadImageFromResource("mileysnake/head_1.png");
 
     }
+
     private static int HEAD_POSITION = 0;
 
     private Direction direction = Direction.LEFT;
     private ArrayList<Point> body;
     private Grid grid;
-    private Color bodyColor = new Color(128,128,128);
+    private Color bodyColor = new Color(100, 97, 97);
     private final MoveValidatorIntf validator;
+
+    Image head_1;
 
 //    SnakeClass(Direction direction, Grid grid) {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 //    }
-
     public void draw(Graphics graphics) {
         graphics.setColor(getBodyColor());
-        for (int i = 0; i < getBody().size(); i++) {
-            //System.out.println("body location = " + body.get(i).toString());
-            graphics.fillOval(getGrid().getCellSystemCoordinate(getBody().get(i)).x,
-                    getGrid().getCellSystemCoordinate(getBody().get(i)).y,
-                    getGrid().getCellWidth(),
-                    getGrid().getCellHeight());
 
+//        for (int i = 0; i < getBody().size(); i++) {
+//            //System.out.println("body location = " + body.get(i).toString());
+//            graphics.fillOval(getGrid().getCellSystemCoordinate(getBody().get(i)).x,
+//                    getGrid().getCellSystemCoordinate(getBody().get(i)).y,
+//                    getGrid().getCellWidth(),
+//                    getGrid().getCellHeight());
+//
+//        }
+        for (int i = 0; i < body.size(); i++) {
+            if (i == HEAD_POSITION) {
+                graphics.drawImage(head_1,
+                        grid.getCellSystemCoordinate(body.get(i).x, body.get(i).y).x,
+                        grid.getCellSystemCoordinate(body.get(i).x, body.get(i).y).y,
+                        grid.getCellWidth(),
+                        grid.getCellHeight(),
+                        null);
+
+            } else {
+                graphics.fillOval(getGrid().getCellSystemCoordinate(getBody().get(i)).x,
+                        getGrid().getCellSystemCoordinate(getBody().get(i)).y,
+                        getGrid().getCellWidth(),
+                        getGrid().getCellHeight());
+            }
         }
     }
 

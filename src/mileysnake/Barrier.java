@@ -7,6 +7,7 @@ package mileysnake;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
 
 /**
  *
@@ -36,6 +37,13 @@ public class Barrier {
     private int x, y;
     private Color color;
     private CellDataProviderIntf cellData;
+
+    /**
+     * @return the point of the cell location
+     */
+    public Point getLocation() {
+        return new Point(x, y);
+    }
 
     /**
      * @return the x
@@ -79,11 +87,5 @@ public class Barrier {
         this.color = color;
     }
 //</editor-fold>
-
-    public void checkIntersection() {
-        for (int i = 0; i < 10; i++) {
-
-        }
-    }
 
 }

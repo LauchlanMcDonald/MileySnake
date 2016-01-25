@@ -90,6 +90,7 @@ public class SnakeClass {
                         getGrid().getCellWidth(),
                         getGrid().getCellHeight());
             }
+
         }
     }
 

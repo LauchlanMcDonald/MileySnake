@@ -12,6 +12,7 @@ import java.awt.Point;
  * @author Lauchlan
  */
 public interface MoveValidatorIntf {
+
     public Point validateMove(Point proposedLocation);
-    
+
 }

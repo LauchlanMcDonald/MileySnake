@@ -148,12 +148,14 @@ class TrapHouse extends Environment implements CellDataProviderIntf, MoveValidat
         barriers.add(new Barrier(29, 23, Color.GREEN, this));
         barriers.add(new Barrier(29, 24, Color.GREEN, this));
 //</editor-fold>
-        
+
 //<editor-fold defaultstate="collapsed" desc="Items">
-        
         items = new ArrayList<>();
         items.add(new Item(4, 5, true, Item.ITEM_TYPE_POISON, this));
         items.add(new Item(14, 15, true, Item.ITEM_TYPE_POISON, this));
+        items.add(new Item(10, 10, true, Item.ITEM_TYPE_FOOD, this));
+        items.add(new Item(20, 20, true, Item.ITEM_TYPE_FOOD, this));
+        
 //</editor-fold>
 
         miley = new SnakeClass(Direction.LEFT, grid, this);
@@ -181,23 +183,28 @@ class TrapHouse extends Environment implements CellDataProviderIntf, MoveValidat
             } else {
                 moveDelay++;
             }
-            
+
             checkIntersections();
         }
     }
-    
+
     public void checkIntersections() {
-        
+
         //see if miley ran into any items
         for (Item item : items) {
             if (item.getLocation().equals(miley.getHead())) {
                 if (item.getType().equals(Item.ITEM_TYPE_POISON)) {
                     item.setAlive(false);
-                    if (miley.getHead().equals(item.getLocation())) {
-                       
-                    }
+
                 }
             }
+
+                if (item.getLocation().equals(miley.getHead())) {
+                    if (item.getType().equals(Item.ITEM_TYPE_FOOD)) {
+                        item.setAlive(false);
+                    }
+                }
+            
         }
     }
 
@@ -252,7 +259,7 @@ class TrapHouse extends Environment implements CellDataProviderIntf, MoveValidat
         if (grid != null) {
             grid.paintComponent(graphics);
         }
-        
+
         if (miley != null) {
             miley.draw(graphics);
         }
@@ -262,19 +269,17 @@ class TrapHouse extends Environment implements CellDataProviderIntf, MoveValidat
                 barriers.get(i).draw(graphics);
             }
         }
-        
+
         if (items != null) {
-            for (Item item : items){
+            for (Item item : items) {
                 if (item.isAlive()) {
                     item.draw(graphics);
                 }
             }
         }
 
-       
         graphics.setColor(Color.RED);
         graphics.drawString("Score: " + score, 270, 15);
-        
 
     }
 
@@ -324,7 +329,7 @@ class TrapHouse extends Environment implements CellDataProviderIntf, MoveValidat
                         proposedLocation.y++;
                         miley.setDirection(Direction.DOWN);
                     }
-                    
+
                 } else if (barrier.getX() == grid.getColumns() - 1) { // this MUST be a barrier on LEFT side of the grid
                     //if in bottom half, go up
                     if (barrier.getY() >= (grid.getRows() / 2)) {
@@ -337,7 +342,7 @@ class TrapHouse extends Environment implements CellDataProviderIntf, MoveValidat
                         proposedLocation.x--;
                         proposedLocation.y++;
                         miley.setDirection(Direction.DOWN);
-                        
+
                     }
                 } else if (barrier.getY() == 0) { // this MUST be a barrier on TOP side of the grid
                     //if in LEFT half, go RIGHT
@@ -352,7 +357,7 @@ class TrapHouse extends Environment implements CellDataProviderIntf, MoveValidat
                         proposedLocation.x++;
                         proposedLocation.y++;
                         miley.setDirection(Direction.RIGHT);
-                        
+
                     }
                 } else if (barrier.getY() == grid.getRows() - 1) { // this MUST be a barrier on TOP side of the grid
                     //if in LEFT half, go RIGHT
@@ -367,21 +372,22 @@ class TrapHouse extends Environment implements CellDataProviderIntf, MoveValidat
                         proposedLocation.x++;
                         proposedLocation.y--;
                         miley.setDirection(Direction.RIGHT);
-                        
+
                     }
                 }
-                
+
             }
         }
-        
+
         //if the x value of the head location is less than 0
         if (proposedLocation.x < 0) {
             //if above the middl of the grid, go down, else go up
             //
             System.out.println("OUT OF BOUNDS");
         }
-        
+
         return proposedLocation;
     }
 //</editor-fold>
+
 }

@@ -33,6 +33,9 @@ public class SnakeClass {
         HEAD_POSITION = aHEAD_POSITION;
     }
 //    private Object cellData;
+    private final Image poison_1;
+    private final Image apple_1;
+    private final Image head_1;
 
     public SnakeClass(Direction direction, Grid grid, MoveValidatorIntf validator) {
         this.direction = direction;
@@ -48,6 +51,8 @@ public class SnakeClass {
         body.add(new Point(3, 13));
 
         head_1 = ResourceTools.loadImageFromResource("mileysnake/head_1.png");
+        poison_1 = ResourceTools.loadImageFromResource("mileysnake/poison_alpha.png");
+        apple_1 = ResourceTools.loadImageFromResource("mileysnake/shinny_apple.png");
 
     }
 
@@ -59,22 +64,11 @@ public class SnakeClass {
     private Color bodyColor = new Color(100, 97, 97);
     private final MoveValidatorIntf validator;
 
-    Image head_1;
 
-//    SnakeClass(Direction direction, Grid grid) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
     public void draw(Graphics graphics) {
         graphics.setColor(getBodyColor());
 
-//        for (int i = 0; i < getBody().size(); i++) {
-//            //System.out.println("body location = " + body.get(i).toString());
-//            graphics.fillOval(getGrid().getCellSystemCoordinate(getBody().get(i)).x,
-//                    getGrid().getCellSystemCoordinate(getBody().get(i)).y,
-//                    getGrid().getCellWidth(),
-//                    getGrid().getCellHeight());
-//
-//        }
+
         for (int i = 0; i < body.size(); i++) {
             if (i == HEAD_POSITION) {
                 graphics.drawImage(head_1,
@@ -92,6 +86,7 @@ public class SnakeClass {
             }
 
         }
+
     }
 
     public void move() {

@@ -15,7 +15,7 @@ import java.awt.Point;
  * @author Lauchlan
  */
 public class Item {
-    
+
     public void draw(Graphics graphics) {
         if (image != null) {
             graphics.drawImage(image, cellData.getSystemCoordX(x, getY()), cellData.getSystemCoordY(x, getY()), cellData.getCellWidth(), cellData.getCellHeight(), null);
@@ -29,12 +29,11 @@ public class Item {
         this.cellData = cellData;
         this.alive = true;
 
-        if (type.equals(Item.ITEM_TYPE_FOOD)) {
-
-        } else if (type.equals(Item.ITEM_TYPE_POISON)) {
+        if (type.equals(Item.ITEM_TYPE_POISON)) {
             this.image = ResourceTools.loadImageFromResource("mileysnake/poison_alpha.png");
+        } else if (type.equals(Item.ITEM_TYPE_FOOD)) {
+            this.image = ResourceTools.loadImageFromResource("mileysnake/shinny_apple.png");
         }
-
     }
 
     private int x, y;
@@ -81,7 +80,7 @@ public class Item {
         this.image = image;
     }
 
-      /**
+    /**
      * @return the x
      */
     public int getX() {

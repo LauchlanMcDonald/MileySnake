@@ -155,9 +155,8 @@ class TrapHouse extends Environment implements CellDataProviderIntf, MoveValidat
         items.add(new Item(14, 15, true, Item.ITEM_TYPE_POISON, this));
         items.add(new Item(10, 10, true, Item.ITEM_TYPE_FOOD, this));
         items.add(new Item(20, 20, true, Item.ITEM_TYPE_FOOD, this));
-        
-//</editor-fold>
 
+//</editor-fold>
         miley = new SnakeClass(Direction.LEFT, grid, this);
     }
 
@@ -195,16 +194,17 @@ class TrapHouse extends Environment implements CellDataProviderIntf, MoveValidat
             if (item.getLocation().equals(miley.getHead())) {
                 if (item.getType().equals(Item.ITEM_TYPE_POISON)) {
                     item.setAlive(false);
-
+                    System.out.println("POISON HITTTTTTTTTT");
+                    //kill Miley
+                    
+                } else if (item.getType().equals(Item.ITEM_TYPE_FOOD)) {
+                    item.setAlive(false);
+                    System.out.println("FOOD HITTTTTTTTTT");
+                    //Grow Miley
+                    //move item to new spot
+                    
                 }
             }
-
-                if (item.getLocation().equals(miley.getHead())) {
-                    if (item.getType().equals(Item.ITEM_TYPE_FOOD)) {
-                        item.setAlive(false);
-                    }
-                }
-            
         }
     }
 

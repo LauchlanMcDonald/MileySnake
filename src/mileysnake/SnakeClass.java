@@ -63,6 +63,7 @@ public class SnakeClass {
     private Grid grid;
     private Color bodyColor = new Color(100, 97, 97);
     private final MoveValidatorIntf validator;
+    private int growthCounter;
 
 
     public void draw(Graphics graphics) {
@@ -108,6 +109,9 @@ public class SnakeClass {
 
         //delete tail
         getBody().remove(getBody().size() - 1);
+        
+        //grow miley
+  
 
     }
 
@@ -170,5 +174,27 @@ public class SnakeClass {
     public void setBodyColor(Color bodyColor) {
         this.bodyColor = bodyColor;
     }
+
+    /**
+     * @return the growthCounter
+     */
+    public int getGrowthCounter() {
+        return growthCounter;
+    }
+
+    /**
+     * @param growthCounter the growthCounter to set
+     */
+    public void setGrowthCounter(int growthCounter) {
+        this.growthCounter = growthCounter;
+    }
+    
+        /**
+     * @return the growthCounter
+     */
+    public int addGrowthCounter() {
+        return growthCounter;
+    }
+
 
 }

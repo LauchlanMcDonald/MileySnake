@@ -24,19 +24,27 @@ import java.util.ArrayList;
  */
 class TrapHouse extends Environment implements CellDataProviderIntf, MoveValidatorIntf {
 
+    Image startscreen;
+    Image gameover;
+
     private Grid grid;
     private SnakeClass miley;
 //    private Barrier barrier;
     private ArrayList<Barrier> barriers;
     private ArrayList<Item> items;
     private int score;
+    private int Health;
+    private Screen screen = Screen.START;
 
     public TrapHouse() {
-
+        Health = 100;
         grid = new Grid(30, 25, 20, 20, new Point(0, 0), new Color(220, 220, 220));
 //        barrier = new Barrier(0, 0, Color.BLACK, this);
         background = ResourceTools.loadImageFromResource("MileySnake/Miley Cyrus.png");
-        this.setBackground(background);
+
+        startscreen = ResourceTools.loadImageFromResource("MileySnake/miley_cyrus.jpg");
+
+        gameover = ResourceTools.loadImageFromResource("MileySnake/miley_crying.png");
 
 //<editor-fold defaultstate="collapsed" desc="Barriers">
         barriers = new ArrayList<>();
@@ -152,9 +160,12 @@ class TrapHouse extends Environment implements CellDataProviderIntf, MoveValidat
 //<editor-fold defaultstate="collapsed" desc="Items">
         items = new ArrayList<>();
         items.add(new Item(4, 5, true, Item.ITEM_TYPE_POISON, this));
-        items.add(new Item(14, 15, true, Item.ITEM_TYPE_POISON, this));
+        items.add(new Item(7, 12, true, Item.ITEM_TYPE_POISON, this));
         items.add(new Item(10, 10, true, Item.ITEM_TYPE_FOOD, this));
         items.add(new Item(20, 20, true, Item.ITEM_TYPE_FOOD, this));
+        items.add(new Item(30, 30, true, Item.ITEM_TYPE_FOOD, this));
+        items.add(new Item(13, 23, true, Item.ITEM_TYPE_FOOD, this));
+        items.add(new Item(25, 4, true, Item.ITEM_TYPE_FOOD, this));
 
 //</editor-fold>
         miley = new SnakeClass(Direction.LEFT, grid, this);
@@ -194,15 +205,14 @@ class TrapHouse extends Environment implements CellDataProviderIntf, MoveValidat
             if (item.getLocation().equals(miley.getHead())) {
                 if (item.getType().equals(Item.ITEM_TYPE_POISON)) {
                     item.setAlive(false);
-                    System.out.println("POISON HITTTTTTTTTT");
                     //kill Miley
-                    
+                    Health = Health - 50;
                 } else if (item.getType().equals(Item.ITEM_TYPE_FOOD)) {
                     item.setAlive(false);
-                    System.out.println("FOOD HITTTTTTTTTT");
                     //Grow Miley
+                    miley.addGrowthCounter(1);
                     //move item to new spot
-                    
+
                 }
             }
         }
@@ -222,7 +232,8 @@ class TrapHouse extends Environment implements CellDataProviderIntf, MoveValidat
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
             miley.setDirection(Direction.DOWN);
         } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            AudioPlayer.play("/mileysnake/bomb_1.wav");
+            screen = Screen.PLAY;
+
         }
 
     }
@@ -256,30 +267,58 @@ class TrapHouse extends Environment implements CellDataProviderIntf, MoveValidat
 
     @Override
     public void paintEnvironment(Graphics graphics) {
-        if (grid != null) {
-            grid.paintComponent(graphics);
-        }
 
-        if (miley != null) {
-            miley.draw(graphics);
-        }
+        switch (screen) {
+            case START:
+                graphics.setFont(new Font("ARIAL", Font.BOLD, 40));
+                graphics.drawImage(startscreen, 0, 0, 900, 580, this);
+                graphics.drawString("PRESS SPACE TO START", 215, 550);
 
-        if (barriers != null) {
-            for (int i = 0; i < barriers.size(); i++) {
-                barriers.get(i).draw(graphics);
-            }
-        }
+                break;
 
-        if (items != null) {
-            for (Item item : items) {
-                if (item.isAlive()) {
-                    item.draw(graphics);
+            case PLAY:
+                graphics.drawImage(background, 0, 0, 1260, 860, this);
+
+
+
+                if (grid != null) {
+                    grid.paintComponent(graphics);
                 }
-            }
-        }
+                if (Health > 0) {
+                    if (miley != null) {
+                        miley.draw(graphics);
+                    }
 
-        graphics.setColor(Color.RED);
-        graphics.drawString("Score: " + score, 270, 15);
+                }
+
+                if (barriers != null) {
+                    for (int i = 0; i < barriers.size(); i++) {
+                        barriers.get(i).draw(graphics);
+                    }
+                }
+
+                if (items != null) {
+                    for (Item item : items) {
+                        if (item.isAlive()) {
+                            item.draw(graphics);
+                        }
+                    }
+                }
+
+                graphics.setColor(Color.RED);
+                graphics.drawString("Score: " + score, 270, 15);
+                
+                
+                break;
+                
+                
+            case GAMEOVER:
+                graphics.drawImage(gameover, 0, 0, 800, 800, this);
+                
+                
+                
+
+        }
 
     }
 

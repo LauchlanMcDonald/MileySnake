@@ -61,14 +61,15 @@ public class SnakeClass {
     private Direction direction = Direction.LEFT;
     private ArrayList<Point> body;
     private Grid grid;
-    private Color bodyColor = new Color(100, 97, 97);
+    private Color bodyColor = new Color(51, 51, 51);
     private final MoveValidatorIntf validator;
     private int growthCounter;
 
+    private int getHealth;
+    private int setHealth;
 
     public void draw(Graphics graphics) {
         graphics.setColor(getBodyColor());
-
 
         for (int i = 0; i < body.size(); i++) {
             if (i == HEAD_POSITION) {
@@ -107,11 +108,12 @@ public class SnakeClass {
         //add new head
         getBody().add(HEAD_POSITION, validator.validateMove(newHead));
 
-        //delete tail
-        getBody().remove(getBody().size() - 1);
-        
         //grow miley
-  
+        if (growthCounter > 0) {
+            growthCounter--;
+        } else {
+            body.remove(body.size() - 1);
+        }
 
     }
 
@@ -188,13 +190,40 @@ public class SnakeClass {
     public void setGrowthCounter(int growthCounter) {
         this.growthCounter = growthCounter;
     }
-    
-        /**
+
+    /**
      * @return the growthCounter
      */
-    public int addGrowthCounter() {
-        return growthCounter;
+    public void addGrowthCounter(int growth) {
+        this.growthCounter += growth;
     }
 
+    /**
+     * @return the getHealth
+     */
+    public int getGetHealth() {
+        return getHealth;
+    }
+
+    /**
+     * @param getHealth the getHealth to set
+     */
+    public void setGetHealth(int getHealth) {
+        this.getHealth = getHealth;
+    }
+
+    /**
+     * @return the setHealth
+     */
+    public int getSetHealth() {
+        return setHealth;
+    }
+
+    /**
+     * @param setHealth the setHealth to set
+     */
+    public void setSetHealth(int setHealth) {
+        this.setHealth = setHealth;
+    }
 
 }

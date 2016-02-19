@@ -115,6 +115,7 @@ public class SnakeClass {
             body.remove(body.size() - 1);
         }
 
+
     }
 
     public Point getHead() {

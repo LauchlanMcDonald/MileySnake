@@ -16,6 +16,7 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.util.AbstractList;
 import java.util.ArrayList;
 
 /**
@@ -205,8 +206,9 @@ class TrapHouse extends Environment implements CellDataProviderIntf, MoveValidat
             if (item.getLocation().equals(miley.getHead())) {
                 if (item.getType().equals(Item.ITEM_TYPE_POISON)) {
                     item.setAlive(false);
+                    screen = screen.GAMEOVER;
+
                     //kill Miley
-                    Health = Health - 50;
                 } else if (item.getType().equals(Item.ITEM_TYPE_FOOD)) {
                     item.setAlive(false);
                     //Grow Miley
@@ -232,6 +234,9 @@ class TrapHouse extends Environment implements CellDataProviderIntf, MoveValidat
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
             miley.setDirection(Direction.DOWN);
         } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+            screen = Screen.PLAY;
+
+        } else if (e.getKeyCode() == KeyEvent.VK_R) {
             screen = Screen.PLAY;
 
         }
@@ -279,8 +284,6 @@ class TrapHouse extends Environment implements CellDataProviderIntf, MoveValidat
             case PLAY:
                 graphics.drawImage(background, 0, 0, 1260, 860, this);
 
-
-
                 if (grid != null) {
                     grid.paintComponent(graphics);
                 }
@@ -307,16 +310,17 @@ class TrapHouse extends Environment implements CellDataProviderIntf, MoveValidat
 
                 graphics.setColor(Color.RED);
                 graphics.drawString("Score: " + score, 270, 15);
-                
-                
+
                 break;
-                
-                
+
             case GAMEOVER:
-                graphics.drawImage(gameover, 0, 0, 800, 800, this);
-                
-                
-                
+
+                graphics.drawImage(gameover, 0, 0, 900, 585, this);
+                graphics.setFont(new Font("ARIAL", Font.BOLD, 50));
+                graphics.setColor(Color.red);
+                graphics.drawString("GAME OVER", 10, 255);
+                graphics.setFont(new Font("ARIAL", Font.BOLD, 25));
+                graphics.drawString("PRESS R TO RESTART", 595, 250);
 
         }
 

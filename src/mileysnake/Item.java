@@ -30,9 +30,9 @@ public class Item {
         this.alive = true;
 
         if (type.equals(Item.ITEM_TYPE_POISON)) {
-            this.image = ResourceTools.loadImageFromResource("mileysnake/poison_alpha.png");
+            this.image = ResourceTools.loadImageFromResource("mileysnake/skull_crossbones.png");
         } else if (type.equals(Item.ITEM_TYPE_FOOD)) {
-            this.image = ResourceTools.loadImageFromResource("mileysnake/shinny_apple.png");
+            this.image = ResourceTools.loadImageFromResource("mileysnake/blue_pill.png");
         }
     }
 

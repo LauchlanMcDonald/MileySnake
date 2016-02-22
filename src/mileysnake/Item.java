@@ -16,6 +16,10 @@ import java.awt.Point;
  */
 public class Item {
 
+    Item(Point randomGridLocation) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public void draw(Graphics graphics) {
         if (image != null) {
             graphics.drawImage(image, cellData.getSystemCoordX(x, getY()), cellData.getSystemCoordY(x, getY()), cellData.getCellWidth(), cellData.getCellHeight(), null);

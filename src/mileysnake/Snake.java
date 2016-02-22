@@ -17,7 +17,7 @@ import java.awt.Image;
  *
  * @author Lauchlan
  */
-public class SnakeClass {
+public class Snake {
 
     /**
      * @return the HEAD_POSITION
@@ -37,7 +37,7 @@ public class SnakeClass {
     private final Image apple_1;
     private final Image head_1;
 
-    public SnakeClass(Direction direction, Grid grid, MoveValidatorIntf validator) {
+    public Snake(Direction direction, Grid grid, MoveValidatorIntf validator) {
         this.direction = direction;
         this.grid = grid;
         this.validator = validator;
@@ -54,6 +54,16 @@ public class SnakeClass {
         poison_1 = ResourceTools.loadImageFromResource("mileysnake/poison_alpha.png");
         apple_1 = ResourceTools.loadImageFromResource("mileysnake/shinny_apple.png");
 
+    }
+    
+    
+    public void resetMiley(){
+        body = new ArrayList<>();
+        body.add(new Point(3, 15));
+        body.add(new Point(3, 15));
+        body.add(new Point(3, 15));
+        body.add(new Point(3, 15));
+        body.add(new Point(3, 15));
     }
 
     private static int HEAD_POSITION = 0;

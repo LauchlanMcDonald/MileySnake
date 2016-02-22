@@ -13,6 +13,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.List;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -29,7 +30,7 @@ class TrapHouse extends Environment implements CellDataProviderIntf, MoveValidat
     Image gameover;
 
     private Grid grid;
-    private SnakeClass miley;
+    private Snake miley;
 //    private Barrier barrier;
     private ArrayList<Barrier> barriers;
     private ArrayList<Item> items;
@@ -169,7 +170,7 @@ class TrapHouse extends Environment implements CellDataProviderIntf, MoveValidat
         items.add(new Item(25, 4, true, Item.ITEM_TYPE_FOOD, this));
 
 //</editor-fold>
-        miley = new SnakeClass(Direction.LEFT, grid, this);
+        miley = new Snake(Direction.LEFT, grid, this);
     }
 
     @Override
@@ -214,7 +215,7 @@ class TrapHouse extends Environment implements CellDataProviderIntf, MoveValidat
                     //Grow Miley
                     miley.addGrowthCounter(1);
                     //move item to new spot
-
+//                    items.clear();
                 }
             }
         }
@@ -235,19 +236,15 @@ class TrapHouse extends Environment implements CellDataProviderIntf, MoveValidat
             miley.setDirection(Direction.DOWN);
         } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             screen = Screen.PLAY;
-
         } else if (e.getKeyCode() == KeyEvent.VK_R) {
             screen = Screen.PLAY;
+            resetGame();
 
         }
 
     }
 
-//    else if (e.getKeyCode () 
-//        == KeyEvent.VK_SPACE) {
-//            AudioPlayer.play("/mileysnake/Laser_1.wav");
-//    }
-//}
+
     @Override
     public void keyReleasedHandler(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
@@ -431,6 +428,29 @@ class TrapHouse extends Environment implements CellDataProviderIntf, MoveValidat
 
         return proposedLocation;
     }
-//</editor-fold>
+    
+    private void redrawItems() {
+        
+    }
+
+    private void resetGame() {
+//        reset score, redraw grid, redraw miley, redraw items, redraw barriers, redraw background
+        this.score = 0;
+        
+        //clear items and create new ones!!!
+        items.clear();
+        items.add(new Item(4, 5, true, Item.ITEM_TYPE_POISON, this));
+        items.add(new Item(7, 12, true, Item.ITEM_TYPE_POISON, this));
+        items.add(new Item(10, 10, true, Item.ITEM_TYPE_FOOD, this));
+        items.add(new Item(20, 20, true, Item.ITEM_TYPE_FOOD, this));
+        items.add(new Item(30, 30, true, Item.ITEM_TYPE_FOOD, this));
+        items.add(new Item(13, 23, true, Item.ITEM_TYPE_FOOD, this));
+        items.add(new Item(25, 4, true, Item.ITEM_TYPE_FOOD, this));
+        
+        //reset miley position and length
+        miley.resetMiley();
+    }
+    
+
 
 }

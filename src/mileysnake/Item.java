@@ -40,6 +40,20 @@ public class Item {
         }
     }
 
+    public Item(Point location, boolean alive, String type, CellDataProviderIntf cellData) {
+        this.x = location.x;
+        this.y = location.y;
+        this.type = type;
+        this.cellData = cellData;
+        this.alive = true;
+
+        if (type.equals(Item.ITEM_TYPE_POISON)) {
+            this.image = ResourceTools.loadImageFromResource("mileysnake/skull_crossbones.png");
+        } else if (type.equals(Item.ITEM_TYPE_FOOD)) {
+            this.image = ResourceTools.loadImageFromResource("mileysnake/blue_pill.png");
+        }
+    }
+
     private int x, y;
     private boolean alive;
     private String type;
@@ -110,6 +124,21 @@ public class Item {
      */
     public void setAlive(boolean alive) {
         this.alive = alive;
+    }
+
+    /**
+     * @param x the x to set
+     */
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    /**
+     * @param x the x to set
+     */
+    public void setLocation(Point location) {
+        this.x = location.x;
+        this.y = location.y;
     }
 
 }

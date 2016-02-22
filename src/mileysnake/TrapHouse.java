@@ -159,18 +159,18 @@ class TrapHouse extends Environment implements CellDataProviderIntf, MoveValidat
         barriers.add(new Barrier(29, 24, Color.GREEN, this));
 //</editor-fold>
 
-//<editor-fold defaultstate="collapsed" desc="Items">
-        items = new ArrayList<>();
-        items.add(new Item(4, 5, true, Item.ITEM_TYPE_POISON, this));
-        items.add(new Item(7, 12, true, Item.ITEM_TYPE_POISON, this));
-        items.add(new Item(10, 10, true, Item.ITEM_TYPE_FOOD, this));
-        items.add(new Item(20, 20, true, Item.ITEM_TYPE_FOOD, this));
-        items.add(new Item(30, 30, true, Item.ITEM_TYPE_FOOD, this));
-        items.add(new Item(13, 23, true, Item.ITEM_TYPE_FOOD, this));
-        items.add(new Item(25, 4, true, Item.ITEM_TYPE_FOOD, this));
-
-//</editor-fold>
         miley = new Snake(Direction.LEFT, grid, this);
+//<editor-fold defaultstate="collapsed" desc="Items">
+        resetGame();
+//</editor-fold>
+    }
+    
+    private int getRandomNumber(int min, int max){
+        return min + (int) (Math.random() * (max - min + 1));
+    }
+    
+    public Point getRandomGridPoint(){
+       return new Point (1 + (int) (Math.random() * (grid.getColumns()-2)), 1 + (int) (Math.random() * (grid.getRows()-2)));
     }
 
     @Override
@@ -211,10 +211,12 @@ class TrapHouse extends Environment implements CellDataProviderIntf, MoveValidat
 
                     //kill Miley
                 } else if (item.getType().equals(Item.ITEM_TYPE_FOOD)) {
-                    item.setAlive(false);
+                    
+                    //to do
                     //Grow Miley
                     miley.addGrowthCounter(1);
                     //move item to new spot
+                    item.setLocation(getRandomGridPoint());
 //                    items.clear();
                 }
             }
@@ -238,6 +240,10 @@ class TrapHouse extends Environment implements CellDataProviderIntf, MoveValidat
             screen = Screen.PLAY;
         } else if (e.getKeyCode() == KeyEvent.VK_R) {
             screen = Screen.PLAY;
+            //generate randon number for poison and food
+            foodCount = getRandomNumber(2, 10);
+            poisonCount = getRandomNumber(5, 20);
+            
             resetGame();
 
         }
@@ -433,19 +439,31 @@ class TrapHouse extends Environment implements CellDataProviderIntf, MoveValidat
         
     }
 
+    
+    private int poisonCount = 2;
+    private int foodCount = 5;
+    
     private void resetGame() {
 //        reset score, redraw grid, redraw miley, redraw items, redraw barriers, redraw background
         this.score = 0;
         
         //clear items and create new ones!!!
-        items.clear();
-        items.add(new Item(4, 5, true, Item.ITEM_TYPE_POISON, this));
-        items.add(new Item(7, 12, true, Item.ITEM_TYPE_POISON, this));
-        items.add(new Item(10, 10, true, Item.ITEM_TYPE_FOOD, this));
-        items.add(new Item(20, 20, true, Item.ITEM_TYPE_FOOD, this));
-        items.add(new Item(30, 30, true, Item.ITEM_TYPE_FOOD, this));
-        items.add(new Item(13, 23, true, Item.ITEM_TYPE_FOOD, this));
-        items.add(new Item(25, 4, true, Item.ITEM_TYPE_FOOD, this));
+        items = new ArrayList<>();
+        for (int i = 0; i < poisonCount; i++) {
+            items.add(new Item(getRandomGridPoint(), true, Item.ITEM_TYPE_POISON, this));
+        }
+        
+        for (int i = 0; i < foodCount; i++) {
+            items.add(new Item(getRandomGridPoint(), true, Item.ITEM_TYPE_FOOD, this));
+        }
+//        items.clear();
+//        items.add(new Item(4, 5, true, Item.ITEM_TYPE_POISON, this));
+//        items.add(new Item(7, 12, true, Item.ITEM_TYPE_POISON, this));
+//        items.add(new Item(10, 10, true, Item.ITEM_TYPE_FOOD, this));
+//        items.add(new Item(20, 20, true, Item.ITEM_TYPE_FOOD, this));
+//        items.add(new Item(30, 30, true, Item.ITEM_TYPE_FOOD, this));
+//        items.add(new Item(13, 23, true, Item.ITEM_TYPE_FOOD, this));
+//        items.add(new Item(25, 4, true, Item.ITEM_TYPE_FOOD, this));
         
         //reset miley position and length
         miley.resetMiley();

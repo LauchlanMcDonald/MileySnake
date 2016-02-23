@@ -191,7 +191,6 @@ class TrapHouse extends Environment implements CellDataProviderIntf, MoveValidat
             if (moveDelay >= moveDelayLimit) {
                 moveDelay = 0;
                 miley.move();
-                score++;
             } else {
                 moveDelay++;
             }
@@ -207,12 +206,15 @@ class TrapHouse extends Environment implements CellDataProviderIntf, MoveValidat
             if (item.getLocation().equals(miley.getHead())) {
                 if (item.getType().equals(Item.ITEM_TYPE_POISON)) {
                     item.setAlive(false);
+//                    AudioPlayer.play("MileySnake/hurt_scream.mp3");
                     screen = screen.GAMEOVER;
+
 
                     //kill Miley
                 } else if (item.getType().equals(Item.ITEM_TYPE_FOOD)) {
                     
-                    //to do
+                    //score
+                    score++;
                     //Grow Miley
                     miley.addGrowthCounter(1);
                     //move item to new spot
@@ -241,10 +243,12 @@ class TrapHouse extends Environment implements CellDataProviderIntf, MoveValidat
         } else if (e.getKeyCode() == KeyEvent.VK_R) {
             screen = Screen.PLAY;
             //generate randon number for poison and food
-            foodCount = getRandomNumber(2, 10);
-            poisonCount = getRandomNumber(5, 20);
-            
+//            foodCount = getRandomNumber(2, 5);
+//            poisonCount = getRandomNumber(5, 20);
+
             resetGame();
+
+            poisonCount ++;
 
         }
 
@@ -452,18 +456,11 @@ class TrapHouse extends Environment implements CellDataProviderIntf, MoveValidat
         for (int i = 0; i < poisonCount; i++) {
             items.add(new Item(getRandomGridPoint(), true, Item.ITEM_TYPE_POISON, this));
         }
-        
+//        
         for (int i = 0; i < foodCount; i++) {
             items.add(new Item(getRandomGridPoint(), true, Item.ITEM_TYPE_FOOD, this));
         }
-//        items.clear();
-//        items.add(new Item(4, 5, true, Item.ITEM_TYPE_POISON, this));
-//        items.add(new Item(7, 12, true, Item.ITEM_TYPE_POISON, this));
-//        items.add(new Item(10, 10, true, Item.ITEM_TYPE_FOOD, this));
-//        items.add(new Item(20, 20, true, Item.ITEM_TYPE_FOOD, this));
-//        items.add(new Item(30, 30, true, Item.ITEM_TYPE_FOOD, this));
-//        items.add(new Item(13, 23, true, Item.ITEM_TYPE_FOOD, this));
-//        items.add(new Item(25, 4, true, Item.ITEM_TYPE_FOOD, this));
+
         
         //reset miley position and length
         miley.resetMiley();
